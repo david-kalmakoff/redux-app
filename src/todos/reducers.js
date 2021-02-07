@@ -11,6 +11,7 @@ export const todos = (state = [], action) => {
     } = action;
 
     switch (type) {
+        // add to todo state
         case CREATE_TODO: {
             const {
                 text
@@ -21,12 +22,14 @@ export const todos = (state = [], action) => {
             };
             return state.concat(newTodo);
         }
+        // remove from todo state
         case REMOVE_TODO: {
             const {
                 text
             } = payload;
             return state.filter(todo => todo.text !== text);
         }
+        // change todo state
         case MARK_TODO_AS_COMPLETED: {
             const {
                 text

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+// Internal Dependencies
 import { createTodo } from './actions';
 
 const Todo = ({ todos = [], onCreatePressed }) => {
@@ -28,9 +29,11 @@ const Todo = ({ todos = [], onCreatePressed }) => {
     );
 }
 
+// Add state to props
 const mapStateTopProps = state => ({
     todos:state.todos,
 });
+// Add state change functionality
 const mapDispatchToProps = dispatch => ({
     onCreatePressed: text => dispatch(createTodo(text)),
 });

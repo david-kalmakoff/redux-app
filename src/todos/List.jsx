@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+// Internal Dependencies
 import { removeTodo, markTodoAsCompleted } from './actions';
 
 const List = ({ todos = [], onRemovePressed, onCompletedPressed }) => {
@@ -27,9 +28,11 @@ const List = ({ todos = [], onRemovePressed, onCompletedPressed }) => {
     );
 }
 
+// Add state to props
 const mapStateTopProps = state => ({
     todos:state.todos,
 });
+// Add state change functionality
 const mapDispatchToProps = dispatch => ({
     onRemovePressed: text => dispatch(removeTodo(text)),
     onCompletedPressed: text => dispatch(markTodoAsCompleted(text)),
