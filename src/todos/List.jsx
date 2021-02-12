@@ -1,41 +1,49 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 // Internal Dependencies
-import { removeTodo, markTodoAsCompleted } from './actions';
+import { loadTodos, removeTodoRequest, markTodoAsCompletedRequest } from './thunks';
 
-const List = ({ todos = [], onRemovePressed, onCompletedPressed }) => {
+const List = ({ todos = [], onRemovePressed, onCompletedPressed, isLoading, startLoadingTodos }) => {
+    useEffect(() => startLoadingTodos(), []);
+
     const completeText = completed => {
         if (completed) return "Completed"
         else return "Complete"
-    }
+    };
 
-    return (
+    const loadingMessage = <div>Loading todos...</div>;
+
+    const content = (
         <div className="List">
-            {todos.map(todo => (
-                <div>
+            { todos.map((todo, id) => (
+                <div key={id}>
                     <p>{todo.text}</p>
                     <button
-                        onClick={() => { onRemovePressed(todo.text); }}>
+                        onClick={() => { onRemovePressed(todo.id); }}>
                         Remove
                     </button>
                     <button
-                        onClick={() => { onCompletedPressed(todo.text); }}>
+                        onClick={() => { onCompletedPressed(todo.id); }}>
                         { completeText(todo.isCompleted) }
                     </button>
                 </div>
-            ))}
+            )) }
         </div>
     );
+
+    return isLoading ? loadingMessage : content;
 }
 
 // Add state to props
 const mapStateTopProps = state => ({
+    isLoading: state.isLoading,
     todos:state.todos,
 });
 // Add state change functionality
 const mapDispatchToProps = dispatch => ({
-    onRemovePressed: text => dispatch(removeTodo(text)),
-    onCompletedPressed: text => dispatch(markTodoAsCompleted(text)),
+    startLoadingTodos: () => dispatch(loadTodos()),
+    onRemovePressed: id => dispatch(removeTodoRequest(id)),
+    onCompletedPressed: id => dispatch(markTodoAsCompletedRequest(id)),
 });
 
 export default connect(mapStateTopProps, mapDispatchToProps)(List);

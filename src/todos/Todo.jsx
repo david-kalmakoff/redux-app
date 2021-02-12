@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 // Internal Dependencies
-import { createTodo } from './actions';
+import { addTodoRequest } from './thunks';
 
 const Todo = ({ todos = [], onCreatePressed }) => {
     const [inputValue, setInputValue] = useState('');
@@ -35,7 +35,7 @@ const mapStateTopProps = state => ({
 });
 // Add state change functionality
 const mapDispatchToProps = dispatch => ({
-    onCreatePressed: text => dispatch(createTodo(text)),
+    onCreatePressed: text => dispatch(addTodoRequest(text)),
 });
 
 export default connect(mapStateTopProps, mapDispatchToProps)(Todo);
